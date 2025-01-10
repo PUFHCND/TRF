@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025年尝检记录表</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            text-align: left;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .signature-pad, .text-input {
+            border: 1px solid #ccc;
+            height: 150px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #fafafa;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container div {
+            width: 48%;
+        }
+
+        button {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a6268;
+        }
+
+        .upload-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .image-preview {
+            display: none;
+            position: relative;
+            width: 100%;
+            max-width: 200px;
+            margin: 10px 0;
+        }
+
+        .image-preview img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-preview .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .image-preview .delete-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>2024 年堂检记录表</h1>
+
+    <table>
+        <tr>
+            <th>院区</th>
+            <td><input type="text" style="width: 100%;"></td>
+            <th>日期</th>
+            <td><input type="date" style="width: 100%;"></td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>检查项目</th>
+            <th>检查记录</th>
+            <th>存在问题</th>
+        </tr>
+        <tr>
+            <td>食材品种</td>
+            <td>
+                <input type="radio" name="food-variety"> 符合
+                <input type="radio" name="food-variety"> 不符合
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>成品温度</td>
+            <td>
+                <input type="radio" name="product-temperature"> 合适
+                <input type="radio" name="product-temperature"> 不热
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>餐份重量</td>
+            <td>
+                <input type="radio" name="meal-weight"> 合适
+                <input type="radio" name="meal-weight"> 超量
+                <input type="radio" name="meal-weight"> 不足
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>盐量</td>
+            <td>
+                <input type="radio" name="salt-level"> 合适
+                <input type="radio" name="salt-level"> 偏咸
+                <input type="radio" name="salt-level"> 偏淡
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>色泽感观</td>
+            <td>
+                <input type="radio" name="color-appearance"> 较好
+                <input type="radio" name="color-appearance"> 较差
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+    </table>
+
+    <div>
+        <h3>其他情况</h3>
+        <div class="text-input" contenteditable="true"></div>
+    </div>
+
+    <div>
+        <h3>建议</h3>
+        <div class="text-input" contenteditable="true"></div>
+    </div>
+
+    <div>
+        <h3>上传图片</h3>
+        <div class="upload-container">
+            <input type="file" id="upload-button" accept="image/*" style="width: 100%; padding: 10px;">
+            <div class="image-preview" id="image-preview">
+                <img id="preview-image" src="" alt="预览图片">
+                <button class="delete-button" id="delete-button">×</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>签名</h3>
+        <div class="button-container">
+            <div>
+                <h4>餐饮管理中心</h4>
+                <canvas id="signature-pad-left" class="signature-pad"></canvas>
+            </div>
+            <div>
+                <h4>临床营养科</h4>
+                <canvas id="signature-pad-right" class="signature-pad"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="exportToPDF()">导出为 PDF</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const uploadButton = document.getElementById('upload-button');
+    const imagePreview = document.getElementById('image-preview');
+    const previewImage = document.getElementById('preview-image');
+    const deleteButton = document.getElementById('delete-button');
+
+    // 上传图片功能
+    uploadButton.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.src = e.target.result;
+                imagePreview.style.display = 'block';
+                uploadButton.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // 删除图片功能
+    deleteButton.addEventListener('click', () => {
+        previewImage.src = '';
+        imagePreview.style.display = 'none';
+        uploadButton.style.display = 'block';
+        uploadButton.value = ''; // 清空上传文件
+    });
+
+    // 签名功能
+    function initSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        const { width, height } = canvas;
+
+        let isDrawing = false;
+        canvas.width = width;
+        canvas.height = height;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDrawing) {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDrawing = false;
+        });
+    }
+
+    // 初始化两个签名区域
+    initSignaturePad('signature-pad-left');
+    initSignaturePad('signature-pad-right');
+
+    // 导出为 PDF
+    function exportToPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.html(document.querySelector('.container'), {
+            callback: function (doc) {
+                doc.save('堂检记录表.pdf');
+            },
+            x: 10,
+            y: 10
+        });
+    }
+</script>
+
+</body>
+</html>
