@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025年尝检记录表</title>
+    <title>2024 年堂检记录表</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -117,6 +117,18 @@
         .image-preview .delete-button:hover {
             background-color: rgba(0, 0, 0, 0.9);
         }
+
+        .secondary-selection {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .secondary-selection select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -132,6 +144,53 @@
             <td><input type="date" style="width: 100%;"></td>
         </tr>
     </table>
+
+    <!-- 新增的治疗饮食设计框 -->
+    <table>
+        <tr>
+            <th>治疗饮食设计</th>
+            <td>
+                <select id="diet-design" style="width: 100%;">
+                    <option value="">请选择饮食设计</option>
+                    <option value="MCT饮食">MCT饮食</option>
+                    <option value="产科糖尿病饮食">产科糖尿病饮食</option>
+                    <option value="普通成人糖尿病饮食">普通成人糖尿病饮食</option>
+                    <option value="低盐低脂饮食">低盐低脂饮食</option>
+                    <option value="普通半流食">普通半流食</option>
+                    <option value="普通流食">普通流食</option>
+                    <option value="清流食">清流食</option>
+                    <option value="低产气半流食">低产气半流食</option>
+                    <option value="低渣流食">低渣流食</option>
+                    <option value="低渣半流食">低渣半流食</option>
+                    <option value="高蛋白流食">高蛋白流食</option>
+                    <option value="高蛋白半流食">高蛋白半流食</option>
+                    <option value="无痛分娩饮食">无痛分娩饮食</option>
+                    <option value="胃肠术后半流食">胃肠术后半流食</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 二级选择框，初始为隐藏 -->
+    <div class="secondary-selection" id="secondary-selection">
+        <h3>二级饮食选择</h3>
+        <select id="sub-diet" style="width: 100%;">
+            <option value="">请选择</option>
+            <option value="产糖1号">产糖1号</option>
+            <option value="产糖2号">产糖2号</option>
+            <option value="产糖3号">产糖3号</option>
+        </select>
+    </div>
+
+    <div class="secondary-selection" id="adult-diet-selection">
+        <h3>二级饮食选择</h3>
+        <select id="adult-sub-diet" style="width: 100%;">
+            <option value="">请选择</option>
+            <option value="普糖1号">普糖1号</option>
+            <option value="普糖2号">普糖2号</option>
+            <option value="普糖3号">普糖3号</option>
+        </select>
+    </div>
 
     <table>
         <tr>
@@ -196,109 +255,43 @@
     <div>
         <h3>上传图片</h3>
         <div class="upload-container">
-            <input type="file" id="upload-button" accept="image/*" style="width: 100%; padding: 10px;">
-            <div class="image-preview" id="image-preview">
-                <img id="preview-image" src="" alt="预览图片">
-                <button class="delete-button" id="delete-button">×</button>
-            </div>
+            <input type="file" id="multi-upload" accept="image/*" multiple>
+            <div id="multi-image-preview"></div>
         </div>
     </div>
 
-    <div>
-        <h3>签名</h3>
-        <div class="button-container">
-            <div>
-                <h4>餐饮管理中心</h4>
-                <canvas id="signature-pad-left" class="signature-pad"></canvas>
-            </div>
-            <div>
-                <h4>临床营养科</h4>
-                <canvas id="signature-pad-right" class="signature-pad"></canvas>
-            </div>
-        </div>
-    </div>
+    <script>
+        const multiUploadInput = document.getElementById('multi-upload');
+        const multiImagePreview = document.getElementById('multi-image-preview');
 
-    <button onclick="exportToPDF()">导出为 PDF</button>
-</div>
+        multiUploadInput.addEventListener('change', function(event) {
+            const files = event.target.files;
+            multiImagePreview.innerHTML = ''; // 清空之前的预览内容
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-    const uploadButton = document.getElementById('upload-button');
-    const imagePreview = document.getElementById('image-preview');
-    const previewImage = document.getElementById('preview-image');
-    const deleteButton = document.getElementById('delete-button');
+            Array.from(files).forEach((file, index) => {
+                const reader = new FileReader();
 
-    // 上传图片功能
-    uploadButton.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewImage.src = e.target.result;
-                imagePreview.style.display = 'block';
-                uploadButton.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+                reader.onload = function(e) {
+                    // 创建图片预览元素
+                    const imageContainer = document.createElement('div');
+                    imageContainer.style.position = 'relative';
+                    imageContainer.style.display = 'inline-block';
+                    imageContainer.style.margin = '10px';
 
-    // 删除图片功能
-    deleteButton.addEventListener('click', () => {
-        previewImage.src = '';
-        imagePreview.style.display = 'none';
-        uploadButton.style.display = 'block';
-        uploadButton.value = ''; // 清空上传文件
-    });
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = '150px';
+                    img.style.height = '150px';
+                    img.style.borderRadius = '5px';
+                    img.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
 
-    // 签名功能
-    function initSignaturePad(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        const ctx = canvas.getContext('2d');
-        const { width, height } = canvas;
-
-        let isDrawing = false;
-        canvas.width = width;
-        canvas.height = height;
-
-        canvas.addEventListener('mousedown', (e) => {
-            isDrawing = true;
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-
-        canvas.addEventListener('mousemove', (e) => {
-            if (isDrawing) {
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-            }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-            isDrawing = false;
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            isDrawing = false;
-        });
-    }
-
-    // 初始化两个签名区域
-    initSignaturePad('signature-pad-left');
-    initSignaturePad('signature-pad-right');
-
-    // 导出为 PDF
-    function exportToPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.html(document.querySelector('.container'), {
-            callback: function (doc) {
-                doc.save('堂检记录表.pdf');
-            },
-            x: 10,
-            y: 10
-        });
-    }
-</script>
-
-</body>
-</html>
+                    // 删除按钮
+                    const deleteButton = document.createElement('button');
+                    deleteButton.innerText = '×';
+                    deleteButton.style.position = 'absolute';
+                    deleteButton.style.top = '5px';
+                    deleteButton.style.right = '5px';
+                    deleteButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                    deleteButton.style.color = 'white';
+                    deleteButton.style.border = 'none';
+                    deleteButton.style.borderRadius = '50%';
