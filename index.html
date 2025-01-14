@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 年堂检记录表</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            text-align: left;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .signature-pad, .text-input {
+            border: 1px solid #ccc;
+            height: 150px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: #fafafa;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container div {
+            width: 48%;
+        }
+
+        button {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a6268;
+        }
+
+        .upload-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .image-preview {
+            display: none;
+            position: relative;
+            width: 100%;
+            max-width: 200px;
+            margin: 10px 0;
+        }
+
+        .image-preview img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-preview .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .image-preview .delete-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .secondary-selection {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .secondary-selection select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+        }
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .signature-box {
+            width: 48%;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 70px;
+            cursor: pointer;
+        }
+
+        .signature-box p {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+
+        .signed-image {
+            display: block;
+            max-width: 100%;
+            margin-top: 10px;
+        }
+
+        .signature-box.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>2024 年堂检记录表</h1>
+
+    <table>
+        <tr>
+            <th>院区</th>
+            <td>
+                <select style="width: 100%;">
+                    <option value="">请选择院区</option>
+                    <option value="中心">中心</option>
+                    <option value="大兴">大兴</option>
+                    <option value="一部">一部</option>
+                    <option value="二部">二部</option>
+                </select>
+            </td>
+            <th>日期</th>
+            <td><input type="date" style="width: 100%;"></td>
+        </tr>
+    </table>
+
+    <!-- 新增的治疗饮食设计框 -->
+    <table>
+        <tr>
+            <th>治疗饮食设计</th>
+            <td>
+                <select id="diet-design" style="width: 100%;">
+                    <option value="">请选择饮食设计</option>
+                    <option value="MCT饮食">MCT饮食</option>
+                    <option value="产科糖尿病饮食">产科糖尿病饮食</option>
+                    <option value="普通成人糖尿病饮食">普通成人糖尿病饮食</option>
+                    <option value="低盐低脂饮食">低盐低脂饮食</option>
+                    <option value="普通半流食">普通半流食</option>
+                    <option value="普通流食">普通流食</option>
+                    <option value="清流食">清流食</option>
+                    <option value="低产气半流食">低产气半流食</option>
+                    <option value="低渣流食">低渣流食</option>
+                    <option value="低渣半流食">低渣半流食</option>
+                    <option value="高蛋白流食">高蛋白流食</option>
+                    <option value="高蛋白半流食">高蛋白半流食</option>
+                    <option value="无痛分娩饮食">无痛分娩饮食</option>
+                    <option value="胃肠术后半流食">胃肠术后半流食</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 二级选择框，初始为隐藏 -->
+    <div class="secondary-selection" id="secondary-selection">
+        <h3>二级饮食选择</h3>
+        <select id="sub-diet" style="width: 100%;">
+            <option value="">请选择</option>
+            <option value="产糖1号">产糖1号</option>
+            <option value="产糖2号">产糖2号</option>
+            <option value="产糖3号">产糖3号</option>
+        </select>
+    </div>
+
+    <div class="secondary-selection" id="adult-diet-selection">
+        <h3>二级饮食选择</h3>
+        <select id="adult-sub-diet" style="width: 100%;">
+            <option value="">请选择</option>
+            <option value="普糖1号">普糖1号</option>
+            <option value="普糖2号">普糖2号</option>
+            <option value="普糖3号">普糖3号</option>
+        </select>
+    </div>
+
+    <table>
+        <tr>
+            <th>检查项目</th>
+            <th>检查记录</th>
+            <th>存在问题</th>
+        </tr>
+        <tr>
+            <td>食材品种</td>
+            <td>
+                <input type="radio" name="food-variety"> 符合
+                <input type="radio" name="food-variety"> 不符合
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>成品温度</td>
+            <td>
+                <input type="radio" name="product-temperature"> 合适
+                <input type="radio" name="product-temperature"> 不热
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>餐份重量</td>
+            <td>
+                <input type="radio" name="meal-weight"> 合适
+                <input type="radio" name="meal-weight"> 超量
+                <input type="radio" name="meal-weight"> 不足
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>盐量</td>
+            <td>
+                <input type="radio" name="salt-level"> 合适
+                <input type="radio" name="salt-level"> 偏咸
+                <input type="radio" name="salt-level"> 偏淡
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+        <tr>
+            <td>色泽感观</td>
+            <td>
+                <input type="radio" name="color-appearance"> 较好
+                <input type="radio" name="color-appearance"> 较差
+            </td>
+            <td><input type="text" style="width: 100%;"></td>
+        </tr>
+    </table>
+
+    <div>
+        <h3>其他情况</h3>
+        <div class="text-input" contenteditable="true"></div>
+    </div>
+
+    <div>
+        <h3>建议</h3>
+        <div class="text-input" contenteditable="true"></div>
+    </div>
+
+    <div>
+        <h3>上传图片</h3>
+        <div class="upload-container">
+            <input type="file" id="multi-upload" accept="image/*" multiple>
+            <div id="multi-image-preview"></div>
+        </div>
+    </div>
+
+    <!-- 修改后的签字框，点击跳转 -->
+    <div class="signature-section">
+        <div class="signature-box" onclick="window.location.href='qianzi.html';">
+            <p>食堂膳食管理中心签字</p>
+        </div>
+        <div class="signature-box" onclick="window.location.href='qianzi2.html';">
+            <p>临床营养科签字</p>
+        </div>
+    </div>
+
+    <!-- 显示签字图像 -->
+    <div id="signature-image-container" class="signature-section">
+        <img id="signature-image" class="signed-image" src="" alt="签字图像">
+    </div>
+</div>
+
+<script>
+    // 在页面加载时检查localStorage是否有签字图像
+    window.onload = function() {
+        var signatureImage = localStorage.getItem("signatureImage");
+        if (signatureImage) {
+            document.getElementById("signature-image").src = signatureImage;
+            document.getElementById("signature-image-container").style.display = "block";
+            document.querySelectorAll(".signature-box").forEach(function(box) {
+                box.classList.add("hidden");
+            });
+        }
+    };
+
+    // 监听饮食设计框的变化，以显示相应的二级选择框
+    document.getElementById('diet-design').addEventListener('change', function() {
+        const dietDesign = this.value;
+        const secondarySelection = document.getElementById('secondary-selection');
+        const adultDietSelection = document.getElementById('adult-diet-selection');
+
+        if (dietDesign === '产科糖尿病饮食') {
+            secondarySelection.style.display = 'block';
+            adultDietSelection.style.display = 'none';
+        } else if (dietDesign === '普通成人糖尿病饮食') {
+            adultDietSelection.style.display = 'block';
+            secondarySelection.style.display = 'none';
+        } else {
+            secondarySelection.style.display = 'none';
+            adultDietSelection.style.display = 'none';
+        }
+    });
+// 保存签名
+saveButton.addEventListener('click', () => {
+    if (!signaturePad.isEmpty()) {
+        const dataUrl = signaturePad.toDataURL(); // 获取签名的 Base64 图片
+        preview.src = dataUrl; // 设置预览图像的源
+        preview.style.display = 'block'; // 显示预览图像
+        signatureContainer.style.display = 'none'; // 隐藏签字画布
+        saveButton.style.display = 'none'; // 隐藏保存按钮
+        finalButtons.style.display = 'block'; // 显示完成和重新签名按钮
+    } else {
+        alert('请先签字'); // 提示用户签字
+    }
+});
+
+// 重新签名
+redoSignButton.addEventListener('click', () => {
+    signatureContainer.style.display = 'block'; // 显示签字画布
+    finalButtons.style.display = 'none'; // 隐藏完成和重新签名按钮
+    preview.style.display = 'none'; // 隐藏预览图像
+    saveButton.style.display = 'inline-block'; // 显示保存按钮
+    signaturePad.clear(); // 清除画布
+});
+
+// 完成
+finishButton.addEventListener('click', () => {
+    localStorage.setItem('signatureImage', preview.src); // 将签名图像存储在本地
+    alert('签字完成');
+});
+
+</script>
+
+</body>
+</html>
